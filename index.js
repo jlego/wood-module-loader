@@ -6,11 +6,11 @@
  const path = require('path');
  const fs = require('fs');
 
-module.exports = (app, config = {}) => {
-  ['model', 'controller', 'route'].forEach(type => {
+module.exports = async (app, config = {}) => {
+  ['model', 'controller', 'route'].forEach(async type => {
     let dirPath = config.registerDirs[type];
     const dirList = fs.readdirSync(path.resolve(__dirname, dirPath));
-    dirList.forEach((fileName) => {
+    dirList.forEach(async fileName => {
       let nameArr = fileName.split('.'),
         moduleName = nameArr[0],
         fileExt = nameArr[1];
@@ -26,5 +26,5 @@ module.exports = (app, config = {}) => {
       }
     });
   });
-  return app;
+  return true;
 }
