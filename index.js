@@ -8,7 +8,7 @@
 
 module.exports = async (app, config = {}) => {
   ['model', 'controller', 'route'].forEach(async type => {
-    let dirPath = config.registerDirs[type];
+    let dirPath = config[type];
     const dirList = fs.readdirSync(path.resolve(__dirname, dirPath));
     dirList.forEach(async fileName => {
       let nameArr = fileName.split('.'),
