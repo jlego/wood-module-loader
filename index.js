@@ -6,7 +6,7 @@
  const path = require('path');
  const fs = require('fs');
 
-module.exports = async (app, config = {}) => {
+module.exports = async (app = {}, config = {}) => {
   ['model', 'controller', 'route'].forEach(async type => {
     let dirPath = config[type];
     const dirList = fs.readdirSync(path.resolve(__dirname, dirPath));
@@ -18,13 +18,15 @@ module.exports = async (app, config = {}) => {
         let theModule = require(path.resolve(__dirname, `${dirPath}/${moduleName}`));
         if (type === 'controller') {
           let controllerName = moduleName.replace('Controller', '');
-          if(!app._controllers.has(controllerName)){
+          let _controllers = app.Plugin('controller')._controllers;
+          let _models = app.Plugin('model')._models;
+          if(!_controllers.has(controllerName)){
             theModule = typeof theModule === 'function' ? new theModule({}, _models) : theModule;
-            app._controllers.set(controllerName, theModule);
+            _controllers.set(controllerName, theModule);
           }
         }
       }
     });
   });
-  return true;
+  return app;
 }
