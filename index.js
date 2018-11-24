@@ -18,8 +18,8 @@ module.exports = async (app = {}, config = {}) => {
         let theModule = require(path.resolve(__dirname, `${dirPath}/${moduleName}`));
         if (type === 'controller') {
           let controllerName = moduleName.replace('Controller', '');
-          let _controllers = app.Plugin('controller')._controllers;
-          let _models = app.Plugin('model')._models;
+          let _controllers = app.getPlugin('controller')._controllers;
+          let _models = app.getPlugin('model')._models;
           if(!_controllers.has(controllerName)){
             theModule = typeof theModule === 'function' ? new theModule({}, _models) : theModule;
             _controllers.set(controllerName, theModule);
