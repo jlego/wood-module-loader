@@ -21,7 +21,7 @@ module.exports = async (app = {}, config = {}) => {
           let _controllers = app.Plugin('controller')._controllers;
           let _models = app.Plugin('model')._models;
           if(!_controllers.has(controllerName)){
-            theModule = typeof theModule === 'function' ? new theModule({ctx: app}, _models) : theModule;
+            theModule = typeof theModule === 'function' ? new theModule({}, _models) : theModule;
             theModule.ctx = app;
             _controllers.set(controllerName, theModule);
           }
